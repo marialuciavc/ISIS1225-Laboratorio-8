@@ -85,3 +85,5 @@ def change_color(my_node, color):
         Exception
     """
     my_node["color"] = color
+    
+
