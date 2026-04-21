@@ -1,5 +1,7 @@
 from DataStructures.Tree import rbt_node as node
 from DataStructures.List import single_linked_list as sl
+from DataStructures.List import array_list as lt
+
   
 
  
@@ -64,6 +66,7 @@ def rot_right(nd):
 def put(my_rbt, key, value):
     my_rbt["raiz"] = insert_node(my_rbt["raiz"], key, value)
     my_rbt["raiz"]["color"] = BLACK
+    return my_rbt
 def insert_node(raiz, key, value):
     if raiz is None:
         return node.new_node(key, value, RED)
@@ -76,7 +79,7 @@ def insert_node(raiz, key, value):
         raiz["value"] = value
     if is_red(raiz["right"]) and not is_red(raiz["left"]):
         raiz = rot_left(raiz)
-    if is_red(raiz["left"]) and is_red(raiz["left"]["left"]):
+    if is_red(raiz["left"]) and is_red (raiz["left"]["left"] if raiz["left"] else None):
         raiz = rot_right(raiz)
     if is_red(raiz["left"]) and is_red(raiz["right"]):
         cambio_de_colores(raiz)
@@ -156,18 +159,36 @@ def value_set_tree(raiz, values):
         value_set_tree(raiz["left"], values)
         sl.add_last(values, node.get_value(raiz))
         value_set_tree(raiz["right"], values)
-def key_values(my_rbt,k_low, k_high):
-    keys = {"elements":[], "size":0}
-    key_range_tree(my_rbt["raiz"], keys, k_low, k_high)
-    return keys
-def key_range_tree(raiz, keys, k_low, k_high):
+def keys(my_rbt,k_low, k_high):
+    key_values_list = lt.new_list()
+    key_range_tree(my_rbt["raiz"], k_low, k_high, key_values_list)
+    return key_values_list
+def key_range_tree(raiz, k_low, k_high, key_values_list):
     if raiz is not None:
         cmp_low = compare(k_low, node.get_key(raiz))
         cmp_high = compare(k_high, node.get_key(raiz))
         if cmp_low < 0:
-            key_range_tree(raiz["left"], keys, k_low, k_high)
+            key_range_tree(raiz["left"], k_low, k_high, key_values_list)
         if cmp_low <= 0 and cmp_high >= 0:
-            keys["elements"].append(node.get_value(raiz))
-            keys["size"] += 1
+            lt.add_last(key_values_list, raiz["key"])
         if cmp_high > 0:
-            key_range_tree(raiz["right"], keys, k_low, k_high)
+            key_range_tree(raiz["right"], k_low, k_high, key_values_list)
+def values (my_rbt,k_low, k_high):
+    values_list = lt.new_list()
+    values_range_tree(my_rbt["raiz"], k_low, k_high, values_list)
+    return values_list 
+def values_range_tree(raiz, k_low, k_high, values_list):
+    if raiz is not None:
+        cmp_low = compare(k_low, raiz["key"])
+        cmp_high = compare(k_high, raiz["key"])
+        if cmp_low < 0:
+            values_range_tree(raiz["left"], k_low, k_high, values_list)
+        if cmp_low <= 0 and cmp_high >= 0:
+            lt.add_last(values_list, raiz["value"])
+        if cmp_high > 0:
+            values_range_tree(raiz["right"], k_low, k_high, values_list)
+            
+def left_key(my_rbt):
+    return minimo(my_rbt)
+def right_key(my_rbt):
+    return maximo(my_rbt)
