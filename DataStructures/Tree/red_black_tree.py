@@ -1,4 +1,7 @@
 from DataStructures.Tree import rbt_node as node
+from DataStructures.List import single_linked_list as sl
+  
+
  
 RED = 0
 BLACK = 1
@@ -135,3 +138,36 @@ def height_node(raiz):
             return lefth + 1
         else:
             return righth + 1   
+def key_set(my_rbt):
+    keys = sl.new_list()
+    key_set_tree(my_rbt["raiz"], keys)
+    return keys
+def key_set_tree(raiz, keys):
+    if raiz is not None:
+        key_set_tree(raiz["left"], keys)
+        sl.add_last(keys, node.get_key(raiz))
+        key_set_tree(raiz["right"], keys)
+def value_set(my_rbt):
+    values = sl.new_list()
+    value_set_tree(my_rbt["raiz"], values)
+    return values
+def value_set_tree(raiz, values):
+    if raiz is not None:
+        value_set_tree(raiz["left"], values)
+        sl.add_last(values, node.get_value(raiz))
+        value_set_tree(raiz["right"], values)
+def key_values(my_rbt,k_low, k_high):
+    keys = {"elements":[], "size":0}
+    key_range_tree(my_rbt["raiz"], keys, k_low, k_high)
+    return keys
+def key_range_tree(raiz, keys, k_low, k_high):
+    if raiz is not None:
+        cmp_low = compare(k_low, node.get_key(raiz))
+        cmp_high = compare(k_high, node.get_key(raiz))
+        if cmp_low < 0:
+            key_range_tree(raiz["left"], keys, k_low, k_high)
+        if cmp_low <= 0 and cmp_high >= 0:
+            keys["elements"].append(node.get_value(raiz))
+            keys["size"] += 1
+        if cmp_high > 0:
+            key_range_tree(raiz["right"], keys, k_low, k_high)
