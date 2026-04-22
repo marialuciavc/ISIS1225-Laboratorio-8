@@ -1,5 +1,6 @@
 from DataStructures.Tree import bst_node as node
-from DataStructures.List import array_list as lt
+from DataStructures.List import array_list as sl
+
 
 
 def new_map():
@@ -87,14 +88,14 @@ def key_set_tree(raiz, lista_llaves):
     if raiz is None:
         return lista_llaves
     key_set_tree(raiz['left'], lista_llaves)
-    lt.add_last(lista_llaves, node.get_key(raiz))
+    sl.add_last(lista_llaves, node.get_key(raiz))
     key_set_tree(raiz['right'], lista_llaves)
     return lista_llaves
 
 
 def key_set(my_bst):
     
-    lista_llaves = lt.new_list()
+    lista_llaves = sl.new_list()
     key_set_tree(my_bst['root'], lista_llaves)
     return lista_llaves
 
@@ -104,13 +105,13 @@ def value_set_tree(raiz, lista_valores):
     if raiz is None:
         return lista_valores
     value_set_tree(raiz['left'], lista_valores)
-    lt.add_last(lista_valores, node.get_value(raiz))
+    sl.add_last(lista_valores, node.get_value(raiz))
     value_set_tree(raiz['right'], lista_valores)
     return lista_valores
 
 
 def value_set(my_bst):
-    lista_valores = lt.new_list()
+    lista_valores = sl.new_list()
     value_set_tree(my_bst['root'], lista_valores)
     return lista_valores
 
@@ -196,7 +197,7 @@ def keys_range(raiz, llave_inicio, llave_fin, lista_llaves):
     if comparacion_inicio < 0:
         keys_range(raiz['left'], llave_inicio, llave_fin, lista_llaves)
     if comparacion_inicio <= 0 and comparacion_fin >= 0:
-        lt.add_last(lista_llaves, node.get_key(raiz))
+        sl.add_last(lista_llaves, node.get_key(raiz))
     if comparacion_fin > 0:
         keys_range(raiz['right'], llave_inicio, llave_fin, lista_llaves)
     
@@ -204,7 +205,7 @@ def keys_range(raiz, llave_inicio, llave_fin, lista_llaves):
 
 
 def keys(my_bst, llave_inicio, llave_fin):
-    lista_llaves = lt.new_list()
+    lista_llaves = sl.new_list()
     keys_range(my_bst['root'], llave_inicio, llave_fin, lista_llaves)
     return lista_llaves
 
@@ -220,7 +221,7 @@ def values_range(raiz, llave_inicio, llave_fin, lista_valores):
     if comparacion_inicio < 0:
         values_range(raiz['left'], llave_inicio, llave_fin, lista_valores)
     if comparacion_inicio <= 0 and comparacion_fin >= 0:
-        lt.add_last(lista_valores, node.get_value(raiz))
+        sl.add_last(lista_valores, node.get_value(raiz))
     if comparacion_fin > 0:
         values_range(raiz['right'], llave_inicio, llave_fin, lista_valores)
     
@@ -228,6 +229,6 @@ def values_range(raiz, llave_inicio, llave_fin, lista_valores):
 
 
 def values(my_bst, llave_inicio, llave_fin):
-    lista_valores = lt.new_list()
+    lista_valores = sl.new_list()
     values_range(my_bst['root'], llave_inicio, llave_fin, lista_valores)
     return lista_valores 
